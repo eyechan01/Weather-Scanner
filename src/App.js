@@ -1,4 +1,4 @@
-// Importing components from relative path 
+// Importing components from relative path
 import React from "react";
 import Weather from "./components/weather";
 import Form from "./components/form";
@@ -9,13 +9,15 @@ const Api_Key = "8d2de98e089f1c28e1a22fc19a24ef04";
 
 class App extends React.Component {
 
-  // Initialize state to undefined for all relevant data points 
+  // Initialize state to undefined for all relevant data points
   state = {
     temperature: undefined,
     city: undefined,
     country: undefined,
     humidity: undefined,
     description: undefined,
+    pressure: undefined,
+    speed: undefined,
     error: undefined
   }
 
@@ -26,8 +28,8 @@ class App extends React.Component {
     // Store city and country values based on current value in form
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
-    e.preventDefault();   
-    // fetch keyword for API call, await to show it's asynchronous, 
+    e.preventDefault();
+    // fetch keyword for API call, await to show it's asynchronous,
     // URL defined at https://openweathermap.org/current
     const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${Api_Key}`);
     // response stored as json in `response` variable
@@ -40,6 +42,8 @@ class App extends React.Component {
         country: response.sys.country,
         humidity: response.main.humidity,
         description: response.weather[0].description,
+        pressure: response.main.pressure,
+        speed: response.wind.speed,
         error: ""
       })
     }else{
@@ -50,11 +54,11 @@ class App extends React.Component {
   }
 
   // Render function updates view whenever the state changes
-  // Components that were imported (Titles, Weather, Form) are called below as HTML tags, 
+  // Components that were imported (Titles, Weather, Form) are called below as HTML tags,
   //   with props as attributes associated with that component
   // Within the tag, props can be passed in to populate the component with the syntax
   //   <componentName prop={value}>
-  // Look at the component definitions within the imported files (lines 2-5) 
+  // Look at the component definitions within the imported files (lines 2-5)
   //   to see how the props populate each component!
   render() {
 
@@ -75,6 +79,8 @@ class App extends React.Component {
                     country={this.state.country}
                     humidity={this.state.humidity}
                     description={this.state.description}
+                    pressure = {this.state.pressure}
+                    speed = {this.state.speed}
                     error={this.state.error}
                   />
                 </div>
